@@ -4,8 +4,8 @@ services:
   postgres:
     image: postgres
     environment:
-      -POSTGRES_USER=sonardb
-      -POSTGRES_PASSWORD=sonaradmin
+      - POSTGRES_USER=sonardb
+      - POSTGRES_PASSWORD=sonaradmin
     volumes: 
       - postgresql_data:/var/lib/postgresql/data
       - postgresql:/var/lib/postgresql
@@ -30,20 +30,20 @@ services:
   jenkins:
     image: jenkins/jenkins
     ports: 
-      -8080:8080
-      -50000:50000
+      - 8080:8080
+      - 50000:50000
     volumes: 
-      -jenkins_volume:/var/jenkins_home
+      - jenkins_volume:/var/jenkins_home
     networks: 
-      -atnet
+      - atnet
   nexus:
     image: sonatype/nexus3
     ports: 
-      -8081:8081
+      - 8081:8081
     volumes: 
-      -nexus_data:/nexus-data
+      - nexus_data:/nexus-data
     networks: 
-      -atnet
+      - atnet
 
 networks: 
   atnet:
