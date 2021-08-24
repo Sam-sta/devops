@@ -1,0 +1,58 @@
+version: "3"
+
+services: 
+  postgres:
+    image: postgres
+    environment:
+      -POSTGRES_USER=sonardb
+      -POSTGRES_PASSWORD=sonaradmin
+    volumes: 
+      - postgresql_data:/var/lib/postgresql/data
+      - postgresql:/var/lib/postgresql
+    networks: 
+      -atnet
+  sonarqube:
+    image: sonarqube:8.9.0-community
+    environment: 
+      - SONARQUBE_JDBC_URL=jdbc:postgresql://postgres/sonardb
+      - SONAR_JDBC_USERNAME=sonardb
+      - SONAR_JDBC_PASSWORD=sonaradmin
+    ports:
+      - 8090:9000
+    networks: 
+      - atnet
+    depends_on: 
+      - postgres
+    volumes:
+      - sonarqube_logs:/opt/sonarqube/logs
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_data:/opt/sonarqube/data
+  jenkins:
+    image: jenkins/jenkins
+    ports: 
+      -8080:8080
+      -50000:50000
+    volumes: 
+      -jenkins_volume:/var/jenkins_home
+    networks: 
+      -atnet
+  nexus:
+    image: sonatype/nexus3
+    ports: 
+      -8081:8081
+    volumes: 
+      -nexus_data:/nexus-data
+    networks: 
+      -atnet
+
+networks: 
+  atnet:
+
+volumes: 
+  postgresql_data:
+  postgresql:
+  sonarqube_logs:
+  sonarqube_extensions:
+  sonarqube_data:
+  jenkins_volume:
+  nexus_data:
