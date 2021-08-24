@@ -10,7 +10,7 @@ services:
       - postgresql_data:/var/lib/postgresql/data
       - postgresql:/var/lib/postgresql
     networks: 
-      -atnet
+      - atnet
   sonarqube:
     image: sonarqube:8.9.0-community
     environment: 
