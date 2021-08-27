@@ -2,13 +2,18 @@ Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/focal64"
   config.vm.synced_folder ".", "/vagrant", disabled: true
   config.vm.box_check_update = true
-  config.vm.network "forwarded_port", guest: 8080, host: 8090
-  config.vm.network "forwarded_port", guest: 8081, host: 8091
+
+  #Port to check http requests from app
+  config.vm.network "forwarded_port", guest: 3000, host: 3000
+
+  #Ports for jenkins
+  config.vm.network "forwarded_port", guest: 8080, host: 8080
+  config.vm.network "forwarded_port", guest: 50000, host 50000
   config.vm.provider "virtualbox" do |vb|
     vb.gui = false
-    vb.name = "ATLatamVM"
-    vb.cpus = 1
-    vb.memory = "2048"
+    vb.name = "MSMjenkins"
+    vb.cpus = 2
+    vb.memory = "8190"
   end
   config.vm.provision "shell", inline: <<-SHELL
     sudo sysctl -w vm.max_map_count=262144
