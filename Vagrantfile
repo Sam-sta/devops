@@ -8,20 +8,29 @@ Vagrant.configure("2") do |config|
 
   #Ports for jenkins
   config.vm.network "forwarded_port", guest: 8080, host: 8080
-  config.vm.network "forwarded_port", guest: 50000, host 50000
+  config.vm.network "forwarded_port", guest: 50000, host: 50000
+
+  #Port for sonarqube
+  config.vm.network "forwarded_port", guest: 8090, host: 8090
+
+  #Port for nexus
+  config.vm.network "forwarded_port", guest: 8081, host: 8081
+
   config.vm.provider "virtualbox" do |vb|
     vb.gui = false
     vb.name = "MSMjenkins"
     vb.cpus = 2
     vb.memory = "8190"
   end
-  config.vm.provision "shell", inline: <<-SHELL
-    sudo sysctl -w vm.max_map_count=262144
-    sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-    sudo chmod +x /usr/local/bin/docker-compose
-    cd Documents
-    git clone https://github.com/Sam-sta/devops.git
-    cd devops
-    sudo docker-compose up
-  SHELL
+
+  config.vm.provision "file", source: "docker-compose.yml", destination: "$HOME/stack/docker-compose.yaml"
+
+  config.vm.provision "shell", path: "provision-dockerinstall.sh"
+
+  config.vm.provision "shell", path: "provision-dockerCompose-install.sh"
+
+  config.vm.provision "shell", path: "provision-dockerCompose-up.sh"
+
+  #Uncomment and add container name to search password
+  #config.vm.provision "jenkinslogs", type: "shell", inline: "docker logs -f stack_jenkins_1"
 end
