@@ -1,12 +1,12 @@
 pipeline {
     agent {label 'linux'}
     parameters {
-        string(name: 'image-name', defaultvalue: 'msmapp')
+        string(name: 'image-name', defaultValue: 'msmapp')
 
-        string(name: 'target-image', defaultvalue: 'samsta/practice_jenkins')
+        string(name: 'target-image', defaultValue: 'samsta/practice_jenkins')
     }
     tools {
-        nodejs 'node16.8.0'
+        nodejs 'NodeJS 16.8.0'
     }
     stages {
         stage('clone app repository') {
