@@ -6,7 +6,7 @@ pipeline {
         string(name: 'target-image', defaultValue: 'samsta/practice_jenkins')
     }
     tools {
-        nodejs 'NodeJS 16.8.0'
+        nodejs 'NodeJS 14.17.5'
     }
     stages {
         stage('clone app repository') {
