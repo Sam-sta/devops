@@ -23,7 +23,7 @@ pipeline {
 
         stage('build app image') {
             steps {
-                sh "sudo docker build -t ${params.image-name}:$BUILD_NUMBER ."
+                sh 'sudo docker build -t ${params.image-name}:$BUILD_NUMBER .'
             }
         }
 
