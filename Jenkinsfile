@@ -9,6 +9,12 @@ pipeline {
         nodejs 'node16.8.0'
     }
     stages {
+        stage('clone app repository') {
+            steps {
+                git branch: "main", url: "https://github.com/Sam-sta/AT-BC-LAT-01.git"
+            }
+        }
+
         stage('install dependencies') {
             steps {
                 sh "npm install"
