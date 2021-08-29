@@ -31,6 +31,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "shell", path: "provision-dockerCompose-up.sh"
 
+  config.vm.provision "java-install", type:"shell", path: "provision-javaInstall.sh"
+
   #Uncomment and add container name to search password
   #config.vm.provision "jenkinslogs", type: "shell", inline: "docker logs -f stack_jenkins_1"
 end
