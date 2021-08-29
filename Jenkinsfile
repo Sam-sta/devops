@@ -23,7 +23,7 @@ pipeline {
 
         stage('build app image') {
             steps {
-                sh "docker build -t ${params.image-name}:$BUILD_NUMBER ."
+                sh "sudo docker build -t ${params.image-name}:$BUILD_NUMBER ."
             }
         }
 
@@ -32,26 +32,26 @@ pipeline {
                 DOCKERHUB_CREDS = credentials('Dockerhub-login')
             }
             steps {
-                sh "docker login -u $DOCKERHUB_CREDS_USR -p $DOCKERHUB_CREDS_PSW"
+                sh "sudo docker login -u $DOCKERHUB_CREDS_USR -p $DOCKERHUB_CREDS_PSW"
             }
         }
 
         stage('tag image') {
             steps {
-                sh "docker tag ${params.image-name}:$BUILD_NUMBER ${params.target-image}:${params.image-name}$BUILD_NUMBER"
+                sh "sudo docker tag ${params.image-name}:$BUILD_NUMBER ${params.target-image}:${params.image-name}$BUILD_NUMBER"
             }
         }
 
         stage('push image') {
             steps {
-                sh "docker push ${params.target-image}:${params.image-name}$BUILD_NUMBER"
+                sh "sudo docker push ${params.target-image}:${params.image-name}$BUILD_NUMBER"
             }
             post {
                 always {
                     script {
-                        sh "docker rmi -f ${params.target-image}:${params.image-name}$BUILD_NUMBER"
-                        sh "docker rmi -f ${params.image-name}:$BUILD_NUMBER"
-                        sh "docker logout"
+                        sh "sudo docker rmi -f ${params.target-image}:${params.image-name}$BUILD_NUMBER"
+                        sh "sudo docker rmi -f ${params.image-name}:$BUILD_NUMBER"
+                        sh "sudo docker logout"
                     }
                 }
             }
