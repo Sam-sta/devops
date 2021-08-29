@@ -15,12 +15,6 @@ pipeline {
             }
         }
 
-        stage('enter app folder') {
-            steps {
-                sh "cd AT-BC-LAT-01"
-            }
-        }
-
         stage('install dependencies') {
             steps {
                 sh "npm install"
