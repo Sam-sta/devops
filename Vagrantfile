@@ -13,8 +13,10 @@ Vagrant.configure("2") do |config|
   #Port for sonarqube
   config.vm.network "forwarded_port", guest: 8090, host: 8090
 
-  #Port for nexus
+  #Ports for nexus
   config.vm.network "forwarded_port", guest: 8081, host: 8081
+  config.vm.network "forwarded_port", guest: 8082, host: 8082
+  config.vm.network "forwarded_port", guest: 8083, host: 8083
 
   config.vm.provider "virtualbox" do |vb|
     vb.gui = false
@@ -23,13 +25,13 @@ Vagrant.configure("2") do |config|
     vb.memory = "8190"
   end
 
-  config.vm.provision "file", source: "docker-compose.yml", destination: "$HOME/stack/docker-compose.yaml"
+  config.vm.provision "compose", type: "file", source: "docker-compose.yml", destination: "$HOME/stack/docker-compose.yml"
 
   config.vm.provision "shell", path: "provision-dockerinstall.sh"
 
   config.vm.provision "shell", path: "provision-dockerCompose-install.sh"
 
-  config.vm.provision "shell", path: "provision-dockerCompose-up.sh"
+  config.vm.provision "compose-up", type: "shell", path: "provision-dockerCompose-up.sh"
 
   config.vm.provision "java-install", type:"shell", path: "provision-javaInstall.sh"
 
