@@ -27,6 +27,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "compose", type: "file", source: "docker-compose.yml", destination: "$HOME/stack/docker-compose.yml"
 
+  config.vm.provision "keys", type: "file", source: "/home/ubuntu/msm-image-exs/keys", destination: "$HOME/vagrant_folder/workspace/keys"
+
   config.vm.provision "shell", path: "provision-dockerinstall.sh"
 
   config.vm.provision "shell", path: "provision-dockerCompose-install.sh"
